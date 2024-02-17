@@ -1,8 +1,12 @@
 import React from "react";
 
 import styles from "./ToastPlayground.module.css";
-export default function RadioInput({ options, onSelect }) {
-  const [selectedVariant, setSelectedVariant] = React.useState("");
+export default function RadioInput({ options, onSelect, value }) {
+  const [selectedVariant, setSelectedVariant] = React.useState(value);
+
+  React.useEffect(() => {
+    setSelectedVariant(value);
+  }, [value]);
 
   return (
     <div className={styles.row}>
