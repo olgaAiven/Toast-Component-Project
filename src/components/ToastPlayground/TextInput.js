@@ -2,9 +2,7 @@ import React from "react";
 
 import styles from "./ToastPlayground.module.css";
 
-export default function TextInput({ onChangeHandler }) {
-  const [selectedVariant, setSelectedVariant] = React.useState("");
-
+function TextInput({ onChangeHandler, value }) {
   return (
     <div className={styles.row}>
       <label
@@ -18,9 +16,8 @@ export default function TextInput({ onChangeHandler }) {
         <textarea
           id="message"
           className={styles.messageInput}
-          value={selectedVariant}
+          value={value}
           onChange={(event) => {
-            setSelectedVariant(event.target.value);
             onChangeHandler(event.target.value);
           }}
         />
@@ -28,3 +25,5 @@ export default function TextInput({ onChangeHandler }) {
     </div>
   );
 }
+
+export default React.memo(TextInput);
