@@ -2,20 +2,23 @@ import React from "react";
 
 import Toast from "../Toast";
 import styles from "./ToastShelf.module.css";
+import { ToastContext } from "../ToastProvider/ToastProvider";
 
-function ToastShelf({ toastList, onListChange }) {
-  const [toasts, setToasts] = React.useState([]);
+function ToastShelf() {
+  const { messageList, setMessageList } = React.useContext(ToastContext);
+
+  const [toasts, setToasts] = React.useState(messageList);
 
   React.useEffect(() => {
-    setToasts(toastList);
-  }, [toastList]);
+    setToasts(messageList);
+  }, [messageList]);
 
   function onDismissHandler(id) {
     const updMessageList = [...toasts].filter((item) => {
       return item.id !== id;
     });
     setToasts(updMessageList);
-    onListChange(updMessageList);
+    setMessageList(updMessageList);
   }
 
   return (
