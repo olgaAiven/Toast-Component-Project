@@ -3,7 +3,7 @@ import React from "react";
 import Toast from "../Toast";
 import styles from "./ToastShelf.module.css";
 import { ToastContext } from "../ToastProvider/ToastProvider";
-import useEscapeKey from "../../hooks/useEscapeKey";
+
 function ToastShelf() {
   const { messageList, setMessageList } = React.useContext(ToastContext);
 
@@ -20,10 +20,6 @@ function ToastShelf() {
     setToasts(updMessageList);
     setMessageList(updMessageList);
   }
-
-  useEscapeKey(() => {
-    setMessageList([]);
-  });
 
   return (
     <ol
