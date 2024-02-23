@@ -5,20 +5,20 @@ import styles from "./ToastShelf.module.css";
 import { ToastContext } from "../ToastProvider/ToastProvider";
 
 function ToastShelf() {
-  const { messageList, setMessageList } = React.useContext(ToastContext);
+  const { messageList, dismissToast } = React.useContext(ToastContext);
 
-  const [toasts, setToasts] = React.useState(messageList);
+  //const [toasts, setToasts] = React.useState(messageList);
 
-  React.useEffect(() => {
-    setToasts(messageList);
-  }, [messageList]);
+  // React.useEffect(() => {
+  //   setToasts(messageList);
+  // }, [messageList]);
 
   function onDismissHandler(id) {
-    const updMessageList = [...toasts].filter((item) => {
-      return item.id !== id;
-    });
-    setToasts(updMessageList);
-    setMessageList(updMessageList);
+    // const updMessageList = [...toasts].filter((item) => {
+    //   return item.id !== id;
+    // });
+    // setToasts(updMessageList);
+    // setMessageList(updMessageList);
   }
 
   return (
@@ -28,16 +28,17 @@ function ToastShelf() {
       aria-live="polite"
       aria-label="Notification"
     >
-      {toasts.map(({ variant, message, id }, i) => {
+      {messageList.map(({ variant, message, id }, i) => {
         return (
           <li className={styles.toastWrapper} key={id}>
             <Toast
               variant={variant ? variant : "notice"}
-              message={message}
               onCloseClick={() => {
-                onDismissHandler(id);
+                dismissToast(id);
               }}
-            />
+            >
+              {message}
+            </Toast>
           </li>
         );
       })}

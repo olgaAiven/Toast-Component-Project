@@ -2,29 +2,43 @@ import React from "react";
 import useEscapeKey from "../../hooks/useEscapeKey";
 
 export const ToastContext = React.createContext();
-const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastProvider({ children }) {
-  const [selectedVariant, setSelectedVariant] = React.useState(
-    VARIANT_OPTIONS[0]
-  );
-  const [message, setMessage] = React.useState("");
   const [messageList, setMessageList] = React.useState([]);
 
-  useEscapeKey(() => {
+  const handleEsc = React.useCallback(() => {
     setMessageList([]);
+  }, []);
+
+  useEscapeKey(() => {
+    handleEsc();
   });
+
+  function createMessage({ message, variant }) {
+    const toast = {
+      variant,
+      message,
+      id: Math.random().toString(16).slice(2),
+    };
+
+    const updMessageList = [...messageList, toast];
+
+    setMessageList(updMessageList);
+  }
+
+  function dismissToast(id) {
+    const updMessageList = [...messageList].filter((item) => {
+      return item.id !== id;
+    });
+    setMessageList(updMessageList);
+  }
 
   return (
     <ToastContext.Provider
       value={{
-        selectedVariant,
-        setSelectedVariant,
-        message,
-        setMessage,
         messageList,
-        setMessageList,
-        VARIANT_OPTIONS,
+        createMessage,
+        dismissToast,
       }}
     >
       {children}
