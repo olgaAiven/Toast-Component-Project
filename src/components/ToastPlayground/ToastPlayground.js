@@ -7,15 +7,15 @@ import ToastShelf from "../ToastShelf";
 import styles from "./ToastPlayground.module.css";
 import { ToastContext } from "../ToastProvider";
 
+const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
+
 function ToastPlayground() {
-  const {
-    selectedVariant,
-    setSelectedVariant,
-    message,
-    setMessage,
-    setMessageList,
-    VARIANT_OPTIONS,
-  } = React.useContext(ToastContext);
+  const [message, setMessage] = React.useState("");
+  const { createMessage } = React.useContext(ToastContext);
+
+  const [selectedVariant, setSelectedVariant] = React.useState(
+    VARIANT_OPTIONS[0]
+  );
 
   const handleVariantSelect = (variant) => {
     setSelectedVariant(variant);
@@ -27,13 +27,7 @@ function ToastPlayground() {
 
   function handlePopToast(event) {
     event.preventDefault();
-    const toast = {
-      variant: selectedVariant,
-      message,
-      id: Math.random().toString(16).slice(2),
-    };
-
-    setMessageList((messageList) => [...messageList, toast]);
+    createMessage({ variant: selectedVariant, message });
     setMessage("");
     setSelectedVariant(VARIANT_OPTIONS[0]);
   }
