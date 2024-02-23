@@ -7,6 +7,7 @@ function TextInput({ onChangeHandler, value }) {
     <div className={styles.row}>
       <label
         htmlFor="message"
+        aria-describedby="message"
         className={styles.label}
         style={{ alignSelf: "baseline" }}
       >
